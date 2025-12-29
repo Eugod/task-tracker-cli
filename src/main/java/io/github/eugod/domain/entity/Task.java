@@ -32,7 +32,11 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    void setId(int id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("ID must be a positive integer");
         }
