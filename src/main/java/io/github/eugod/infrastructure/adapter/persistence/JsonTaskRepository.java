@@ -1,4 +1,4 @@
-package io.github.eugod.infrastructure.repository;
+package io.github.eugod.infrastructure.adapter.persistence;
 
 import io.github.eugod.domain.entity.Task;
 import io.github.eugod.domain.entity.TaskStatus;
