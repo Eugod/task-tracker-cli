@@ -1,68 +1,124 @@
-# 🧭 Task Tracker CLI
+# Task Tracker CLI
 
-This repository was created to practice and reinforce knowledge of the **Java programming language**.
+A command-line task management application built with Java, following Clean Architecture principles.
 
----
+This project was created to practice and reinforce knowledge of software architecture, design patterns, and the Java programming language.
 
-## ⚙️ Project setup
+## Architecture
 
-### 1. Navigate to the source directory
+This project implements **Clean Architecture** (Hexagonal Architecture) with clear separation of concerns:
+
+- **Domain Layer**: Core business entities and repository interfaces
+- **Application Layer**: Use cases that orchestrate business logic
+- **Infrastructure Layer**: External concerns (CLI, persistence, serialization)
+
+## Technology Stack
+
+- Java 21
+- Maven (build tool)
+- Gson (JSON serialization)
+
+## Project Structure
+
+```
+src/main/java/io/github/eugod/
+├── Main.java                          # Application entry point
+├── domain/                            # Core business logic
+│   ├── entity/
+│   │   ├── Task.java
+│   │   └── TaskStatus.java
+│   └── repository/
+│       └── TaskRepository.java        # Repository interface (port)
+├── application/                       # Use cases
+│   └── usecase/
+│       └── SaveTaskUseCase.java
+└── infrastructure/                    # Implementation details
+    ├── config/
+    │   └── DependencyFactory.java     # Dependency injection setup
+    ├── serialization/
+    │   └── LocalDateTimeAdapter.java  # Gson type adapter
+    └── adapter/
+        ├── cli/                       # CLI adapter (input)
+        │   ├── commands/
+        │   │   ├── Command.java
+        │   │   └── AddCommand.java
+        │   ├── exception/
+        │   │   └── InvalidCommandException.java
+        │   └── CommandHandler.java
+        └── persistence/               # Persistence adapter (output)
+            └── JsonTaskRepository.java
+```
+
+## Building the Project
+
+Compile the project using Maven:
+
 ```bash
-cd src/main/java
+mvn clean compile
 ```
 
-### 2. Compile the project
+To package dependencies:
+
 ```bash
-javac -d out io/github/eugod/TaskTracker.java io/github/eugod/view/TaskView.java
+mvn package
 ```
 
-This will generate the compiled `.class` files inside the `out/` directory.
+## Running the Application
 
----
+### Option 1: Using the task-cli script
 
-## ▶️ Running the application
+Make the script executable:
 
-### 🐧 On Linux / WSL / macOS
-You can create an alias for easier execution:
 ```bash
-alias task-tracker='java -cp src/main/java/out io.github.eugod.TaskTracker'
+chmod +x task-cli
 ```
 
-Then simply run:
+Run commands:
+
 ```bash
-task-tracker [arguments]
+./task-cli add "Study Clean Architecture"
 ```
 
----
+### Option 2: Direct execution with Maven
 
-### 🪟 On Windows (CMD or PowerShell)
-Navigate to the compiled directory:
 ```bash
-cd src\main\java\out\io\github\eugod
+mvn exec:java -Dexec.mainClass="io.github.eugod.Main" -Dexec.args="add 'Study Clean Architecture'"
 ```
 
-Then run the program:
+### Option 3: Create a global alias
+
+Create a symbolic link (requires sudo):
+
 ```bash
-java io.github.eugod.TaskTracker [arguments]
+sudo ln -s $(pwd)/task-cli /usr/local/bin/task-tracker
 ```
 
----
+Then use from anywhere:
 
-## 💡 Example
 ```bash
-task-tracker mark-done "integration tests"
+task-tracker add "Study Design Patterns"
 ```
 
----
+## Available Commands
 
-## 🧩 Folder structure
+Currently implemented:
+
+- **add**: Create a new task
+  ```bash
+  task-tracker add "Task description"
+  ```
+
+Planned commands:
+
+- list: List all tasks
+- update: Update task description
+- delete: Delete a task
+- mark-in-progress: Mark task as in progress
+- mark-done: Mark task as completed
+
+## Data Storage
+
+Tasks are persisted in JSON format at:
 ```
-task-tracker-cli/
- └─ src/
-     └─ main/
-         └─ java/
-             ├─ io/github/eugod/TaskTracker.java
-             ├─ io/github/eugod/view/TaskView.java
-             └─ out/
+src/main/resources/persistence/tasks.json
 ```
----
