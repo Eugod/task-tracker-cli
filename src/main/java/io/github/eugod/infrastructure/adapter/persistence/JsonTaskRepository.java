@@ -1,5 +1,6 @@
 package io.github.eugod.infrastructure.adapter.persistence;
 
+import com.google.gson.GsonBuilder;
 import io.github.eugod.domain.entity.Task;
 import io.github.eugod.domain.entity.TaskStatus;
 import io.github.eugod.domain.repository.TaskRepository;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +21,9 @@ public class JsonTaskRepository implements TaskRepository {
     private final Gson gson;
 
     public JsonTaskRepository() {
-        this.gson = new Gson();
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
         initializeFile();
     }
 
