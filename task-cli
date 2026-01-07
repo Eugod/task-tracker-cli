@@ -1,1 +1,1 @@
-java -cp "target/classes:target/dependency/*" io.github.eugod.infrastructure.adapter.cli.Main "$@"
+java -cp "target/classes:target/dependency/*" io.github.eugod.Main "$@"
