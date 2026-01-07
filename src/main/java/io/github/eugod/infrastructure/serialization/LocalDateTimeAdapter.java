@@ -1,4 +1,4 @@
-package io.github.eugod.infrastructure.adapter.persistence;
+package io.github.eugod.infrastructure.serialization;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

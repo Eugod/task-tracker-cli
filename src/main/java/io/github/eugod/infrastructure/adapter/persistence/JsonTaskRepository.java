@@ -6,6 +6,7 @@ import io.github.eugod.domain.entity.TaskStatus;
 import io.github.eugod.domain.repository.TaskRepository;
 
 import com.google.gson.Gson;
+import io.github.eugod.infrastructure.serialization.LocalDateTimeAdapter;
 
 import java.io.IOException;
 import java.nio.file.Files;
